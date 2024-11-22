@@ -1,184 +1,161 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
-const initialState = {
-  subjects: [
-    {
-      id: 1,
-      name: "Mathematics",
-      description: "Advanced Calculus",
-      syllabus: [
-        { id: 1, topic: "Limits and Continuity", completed: true },
-        { id: 2, topic: "Differentiation", completed: false }
-      ],
-      assignments: [
-        {
-          id: 1,
-          title: "Integration Problems",
-          description: "Solve 10 integration problems",
-          dueDate: "2024-12-01",
-          uploadDate: "2024-11-15",
-          totalMarks: 100,
-          completed: false
-        }
-      ]
+// Load state from localStorage
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('academicsState');
+    if (serializedState === null) {
+      return {
+        subjects: [],
+        loading: false,
+        error: null
+      };
     }
-  ],
-  loading: false,
-  error: null
+    return JSON.parse(serializedState);
+  } catch (err) {
+    return {
+      subjects: [],
+      loading: false,
+      error: null
+    };
+  }
 };
+
+// Save state to localStorage
+const saveState = (state) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('academicsState', serializedState);
+  } catch (err) {
+    console.error('Could not save state', err);
+  }
+};
+
+// Async thunk for fetching subjects
+export const fetchSubjects = createAsyncThunk(
+  'academics/fetchSubjects',
+  async () => {
+    try {
+      const state = loadState();
+      return state.subjects;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 const academicsSlice = createSlice({
   name: 'academics',
-  initialState,
+  initialState: loadState(),
   reducers: {
-    // Subject actions
     addSubject: (state, action) => {
       const newSubject = {
-        id: Date.now(),
-        ...action.payload,
+        id: uuidv4(),
+        name: action.payload.name,
+        description: action.payload.description,
         syllabus: [],
         assignments: []
       };
       state.subjects.push(newSubject);
-    },
-    updateSubject: (state, action) => {
-      const { id, ...updates } = action.payload;
-      const subject = state.subjects.find(s => s.id === id);
-      if (subject) {
-        Object.assign(subject, updates);
-      }
+      saveState(state);
     },
     deleteSubject: (state, action) => {
       state.subjects = state.subjects.filter(subject => subject.id !== action.payload);
+      saveState(state);
     },
-
-    // Syllabus actions
     addSyllabus: (state, action) => {
       const { subjectId, syllabus } = action.payload;
       const subject = state.subjects.find(s => s.id === subjectId);
       if (subject) {
         subject.syllabus.push({
-          id: Date.now(),
-          ...syllabus,
+          id: uuidv4(),
+          topic: syllabus.topic,
           completed: false
         });
       }
-    },
-    updateSyllabus: (state, action) => {
-      const { subjectId, syllabusId, ...updates } = action.payload;
-      const subject = state.subjects.find(s => s.id === subjectId);
-      if (subject) {
-        const syllabus = subject.syllabus.find(s => s.id === syllabusId);
-        if (syllabus) {
-          Object.assign(syllabus, updates);
-        }
-      }
+      saveState(state);
     },
     deleteSyllabus: (state, action) => {
       const { subjectId, syllabusId } = action.payload;
       const subject = state.subjects.find(s => s.id === subjectId);
       if (subject) {
-        subject.syllabus = subject.syllabus.filter(s => s.id !== syllabusId);
+        subject.syllabus = subject.syllabus.filter(item => item.id !== syllabusId);
       }
+      saveState(state);
     },
     toggleSyllabus: (state, action) => {
       const { subjectId, syllabusId } = action.payload;
       const subject = state.subjects.find(s => s.id === subjectId);
       if (subject) {
-        const syllabus = subject.syllabus.find(s => s.id === syllabusId);
-        if (syllabus) {
-          syllabus.completed = !syllabus.completed;
+        const syllabusItem = subject.syllabus.find(item => item.id === syllabusId);
+        if (syllabusItem) {
+          syllabusItem.completed = !syllabusItem.completed;
         }
       }
+      saveState(state);
     },
-
-    // Assignment actions
     addAssignment: (state, action) => {
       const { subjectId, assignment } = action.payload;
       const subject = state.subjects.find(s => s.id === subjectId);
       if (subject) {
         subject.assignments.push({
-          id: Date.now(),
-          ...assignment,
-          uploadDate: new Date().toISOString().split('T')[0],
-          completed: false
+          id: uuidv4(),
+          ...assignment
         });
       }
-    },
-    updateAssignment: (state, action) => {
-      const { subjectId, assignmentId, ...updates } = action.payload;
-      const subject = state.subjects.find(s => s.id === subjectId);
-      if (subject) {
-        const assignment = subject.assignments.find(a => a.id === assignmentId);
-        if (assignment) {
-          Object.assign(assignment, updates);
-        }
-      }
+      saveState(state);
     },
     deleteAssignment: (state, action) => {
       const { subjectId, assignmentId } = action.payload;
       const subject = state.subjects.find(s => s.id === subjectId);
       if (subject) {
-        subject.assignments = subject.assignments.filter(a => a.id !== assignmentId);
+        subject.assignments = subject.assignments.filter(item => item.id !== assignmentId);
       }
+      saveState(state);
     },
-    toggleAssignmentComplete: (state, action) => {
-      const { subjectId, assignmentId } = action.payload;
-      const subject = state.subjects.find(s => s.id === subjectId);
+    updateSubject: (state, action) => {
+      const { id, updates } = action.payload;
+      const subject = state.subjects.find(s => s.id === id);
       if (subject) {
-        const assignment = subject.assignments.find(a => a.id === assignmentId);
-        if (assignment) {
-          assignment.completed = !assignment.completed;
-        }
+        Object.assign(subject, updates);
       }
-    },
-
-    // Async action states
-    setLoading: (state, action) => {
-      state.loading = action.payload;
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
+      saveState(state);
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSubjects.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchSubjects.fulfilled, (state, action) => {
+        state.loading = false;
+        state.subjects = action.payload;
+      })
+      .addCase(fetchSubjects.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
   }
 });
 
-// Export actions
+// Selectors
+export const selectAllSubjects = (state) => state.academics.subjects;
+export const selectLoading = (state) => state.academics.loading;
+export const selectError = (state) => state.academics.error;
+export const selectSubjectById = (state, subjectId) => 
+  state.academics.subjects.find(subject => subject.id === subjectId);
+
 export const {
   addSubject,
-  updateSubject,
   deleteSubject,
   addSyllabus,
-  updateSyllabus,
   deleteSyllabus,
   toggleSyllabus,
   addAssignment,
-  updateAssignment,
   deleteAssignment,
-  toggleAssignmentComplete,
-  setLoading,
-  setError
+  updateSubject
 } = academicsSlice.actions;
-
-// Selectors
-export const selectAllSubjects = state => state.academics.subjects;
-export const selectSubjectById = (state, subjectId) => 
-  state.academics.subjects.find(subject => subject.id === subjectId);
-export const selectLoading = state => state.academics.loading;
-export const selectError = state => state.academics.error;
-
-// Optional: Thunk for async operations
-export const fetchSubjects = () => async (dispatch) => {
-  try {
-    dispatch(setLoading(true));
-    // API call would go here
-    // const response = await api.get('/subjects');
-    // dispatch(setSubjects(response.data));
-    dispatch(setLoading(false));
-  } catch (error) {
-    dispatch(setError(error.message));
-    dispatch(setLoading(false));
-  }
-};
 
 export default academicsSlice.reducer;

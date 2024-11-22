@@ -28,22 +28,22 @@ function MobileNav({ isOpen, setIsOpen }) {
           <button
             key={item.path}
             onClick={() => handleNavClick(item.path)}
-            className="block w-full text-left px-3 py-2 rounded-md hover:bg-blue-600 transition-colors"
+            className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
           >
             {item.name}
           </button>
         ))}
       </div>
-      <div className="pt-4 pb-3 border-t border-blue-600">
+      <div className="pt-4 pb-3 border-t border-emerald-500">
         <button
           onClick={() => handleNavClick("/login")}
-          className="block w-full text-left px-3 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
         >
           Login
         </button>
         <button
           onClick={() => handleNavClick("/signup")}
-          className="block w-full text-left px-3 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
         >
           Signup
         </button>

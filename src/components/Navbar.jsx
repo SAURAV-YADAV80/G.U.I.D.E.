@@ -8,13 +8,13 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-blue-500 text-white sticky top-0 z-50">
+    <nav className="bg-teal-600 text-white sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="relative flex justify-between items-center h-16">
           {/* Logo with Tooltip */}
           <div className="relative group">
             <button
-              className="flex items-center space-x-2 text-xl font-bold hover:text-gray-200 transition-colors"
+              className="flex items-center space-x-2 text-xl font-bold hover:text-emerald-300 transition-colors"
               onClick={() => navigate("/")} // Navigate to the home route
             >
               {/* SVG Icon */}
@@ -33,14 +33,14 @@ function Navbar() {
               <span>G.U.I.D.E.</span>
             </button>
             {/* Horizontal Tooltip */}
-            <div className="absolute hidden group-hover:flex items-center top-1/2 left-full ml-4 transform -translate-y-1/2 bg-black text-white text-sm px-4 py-2 rounded shadow-lg whitespace-nowrap">
+            <div className="absolute hidden group-hover:flex z-10 items-center top-1/2 left-full ml-4 transform -translate-y-1/2 bg-emerald-500 text-white text-sm px-4 py-2 rounded shadow-lg whitespace-nowrap">
               Goal-oriented Utility for Improving Daily Education
             </div>
           </div>
 
           {/* Hamburger Icon */}
           <button
-            className="lg:hidden p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-white"
+            className="lg:hidden p-2 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-white"
             onClick={() => setIsOpen(!isOpen)}
           >
             <svg

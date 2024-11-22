@@ -1,4 +1,3 @@
-// src/components/Diary.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveDiary, setDiaries, resetDiaries } from '../slices/diarySlice';
@@ -88,12 +87,12 @@ export default function Diary() {
   );
 
   return (
-    <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-4 text-center">My Daily Diary</h1>
+    <div className="container mx-auto p-4 bg-teal-50 min-h-screen">
+      <h1 className="text-3xl font-bold mb-4 text-center text-teal-800">My Daily Diary</h1>
 
       {/* Today's Entry Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">
+      <div className="bg-white p-6 rounded-lg shadow-lg border border-teal-100 mb-6">
+        <h2 className="text-xl font-semibold mb-4 text-teal-700">
           Today's Entry
           {!isEditing && <span className="text-red-500 text-sm ml-2">(Locked)</span>}
         </h2>
@@ -101,7 +100,7 @@ export default function Diary() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Write your thoughts for today..."
-          className="w-full p-4 border rounded-lg mb-4 min-h-[200px]"
+          className="w-full p-4 border border-teal-200 rounded-lg mb-4 min-h-[200px] focus:ring-2 focus:ring-teal-500 focus:border-transparent"
           disabled={!isEditing}
         />
         <div className="flex justify-between items-center">
@@ -110,14 +109,14 @@ export default function Diary() {
             disabled={!isEditing}
             className={`px-6 py-2 rounded-md ${
               isEditing
-                ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-md transition-all'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
             Save Entry
           </button>
           {isEditing && (
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-teal-600">
               Auto-locks at midnight
             </span>
           )}
@@ -125,17 +124,17 @@ export default function Diary() {
       </div>
 
       {/* Previous Entries Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Previous Entries</h2>
+      <div className="bg-white p-6 rounded-lg shadow-lg border border-teal-100">
+        <h2 className="text-xl font-semibold mb-4 text-teal-700">Previous Entries</h2>
         {sortedDiaries.length > 0 ? (
           <div className="space-y-4">
             {sortedDiaries.map((diary) => (
               <div
                 key={diary.date}
-                className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                className="p-4 border border-teal-100 rounded-lg hover:bg-teal-50 transition-colors"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold">
+                  <h3 className="font-semibold text-teal-800">
                     {new Date(diary.date).toLocaleDateString('en-US', {
                       weekday: 'long',
                       year: 'numeric',
@@ -145,25 +144,25 @@ export default function Diary() {
                   </h3>
                   <button
                     onClick={() => handleOpenModal(diary)}
-                    className="text-blue-500 hover:text-blue-600"
+                    className="text-emerald-600 hover:text-emerald-700 transition-colors"
                   >
                     View Full Entry
                   </button>
                 </div>
-                <p className="text-gray-600 line-clamp-2">{diary.text}</p>
+                <p className="text-teal-600 line-clamp-2">{diary.text}</p>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center">No previous entries yet.</p>
+          <p className="text-teal-500 text-center">No previous entries yet.</p>
         )}
       </div>
 
       {/* Modal */}
       {isModalOpen && selectedDiary && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <div className="max-w-2xl">
-            <h2 className="text-xl font-semibold mb-4">
+          <div className="max-w-2xl bg-white p-6 rounded-lg shadow-lg border border-teal-100">
+            <h2 className="text-xl font-semibold mb-4 text-teal-700">
               {new Date(selectedDiary.date).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
@@ -172,7 +171,7 @@ export default function Diary() {
               })}
             </h2>
             <div className="prose max-w-none">
-              <p className="whitespace-pre-wrap">{selectedDiary.text}</p>
+              <p className="whitespace-pre-wrap text-teal-800">{selectedDiary.text}</p>
             </div>
           </div>
         </Modal>

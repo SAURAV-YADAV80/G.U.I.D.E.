@@ -8,6 +8,8 @@ import MoodTracker from "./pages/MoodTracker";
 import Reff from "./pages/Reff";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
@@ -16,7 +18,7 @@ function App() {
         <Navbar />
         <main className="container mx-auto px-4 py-8">
           <Routes>
-            <Route path="/" element={<h1 className="text-3xl font-bold">Welcome to the App!</h1>} />
+            <Route path="/" element={<LandingPage/>} />
             <Route path="/todos" element={<Todos />} />
             <Route path="/academics" element={<Academics />} />
             <Route path="/diary" element={<Diary />} />
