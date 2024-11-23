@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
+import TypingSpeedTester from "./pages/TypingSpeedTester";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/academics" element={<Academics />} />
             <Route path="/diary" element={<Diary />} />
             <Route path="/moodtracker" element={<MoodTracker />} />
+            {/* <Route path="/speedtester" element={<TypingSpeedTester />} /> */}
             <Route path="/pages" element={<Reff />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

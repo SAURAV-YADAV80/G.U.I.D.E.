@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const todoRoutes = require("./routes/todoRoutes");
+// const moodRoutes = require("./routes/moodRoutes");
 
 const app = express();
 const PORT = 5000;
@@ -19,5 +20,6 @@ mongoose
 
 // Routes
 app.use("/api/todos", todoRoutes);
+// app.use("/api/moods", moodRoutes);
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
