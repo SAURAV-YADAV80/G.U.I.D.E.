@@ -1,4 +1,5 @@
 import React from 'react';
+import DiaryCard from './DiaryCard';
 
 const DiaryList = ({ diaries, onViewEntry }) => {
   const sortedDiaries = [...diaries].sort((a, b) => 
