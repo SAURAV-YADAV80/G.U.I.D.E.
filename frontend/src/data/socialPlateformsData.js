@@ -1,0 +1,67 @@
+import { Youtube, Facebook, Instagram, Twitter, Globe, Album } from 'lucide-react';
+
+export const socialPlatformsData = [
+  {
+    name: "YouTube",
+    icon: Youtube,
+    color: "text-red-600",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://youtube.com",
+    description: "Subscribe to our channel for exclusive video content, tutorials, and behind-the-scenes footage. Join our growing community of over 100k subscribers!",
+  },
+  {
+    name: "Facebook",
+    icon: Facebook,
+    color: "text-blue-600",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://facebook.com",
+    description: "Connect with us on Facebook for daily updates, community discussions, and live events. Be part of our active social community!",
+  },
+  {
+    name: "X (Twitter)",
+    icon: Twitter,
+    color: "text-blue-400",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://twitter.com",
+    description: "Follow us on X for real-time updates, industry news, and quick interactions. Join the conversation and stay updated!",
+  },
+  {
+    name: "Instagram",
+    icon: Instagram,
+    color: "text-pink-600",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://instagram.com",
+    description: "Follow our Instagram for visual inspiration, product showcases, and stories. Experience our brand through beautiful imagery!",
+  },
+  {
+    name: "Wikipedia",
+    icon: Globe,
+    color: "text-gray-600",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://wikipedia.org",
+    description: "Learn more about our history, achievements, and impact on our Wikipedia page. Discover our complete story!",
+  },
+  {
+    name: "App1",
+    icon: Album,
+    color: "text-gray-600",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://wikipedia.org",
+    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi accusamus ea quia omnis!",
+  },
+  {
+    name: "App2",
+    icon: Album,
+    color: "text-gray-600",
+    bgColor: "bg-white",
+    hoverColor: "hover:bg-emerald-50",
+    link: "https://wikipedia.org",
+    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi accusamus ea quia omnis!",
+  }
+];
