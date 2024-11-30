@@ -6,7 +6,7 @@ import {
   setIsModalOpen, 
   setNewMood, 
   addMood, 
-  deleteMood 
+  deleteMood
 } from '../slices/moodSlice';
 import { CalendarDay } from '../components/CalendarDay';
 import { MoodLegend } from '../components/MoodLegend';
