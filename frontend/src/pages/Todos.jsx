@@ -1,17 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Plus, Target, Trophy, Coffee } from "lucide-react";
-import {
-  fetchTodos,
-  addTodo,
-  removeTodo,
-  toggleComplete,
-  editTodo,
-  setFilter,
-} from "../slices/todoSlice";
 import ProgressBar from "../components/ProgressBar";
 import MotivationalMessage from "../components/MotivationalMessage";
 import TodoList from "../components/TodoList";
+import { Navigate } from "react-router-dom";
 
 function Todos() {
   const [input, setInput] = useState("");
@@ -19,10 +12,11 @@ function Todos() {
   const inputRef = useRef(null);
 
   const { todos, filter, status, error } = useSelector((state) => state.todos);
+  console.log(todos)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTodos());
+    dispatch({ type: 'todos/fetchTodosRequest' });
   }, [dispatch]);
 
   const completedTodos = todos.filter((todo) => todo.completed);
@@ -35,14 +29,17 @@ function Todos() {
   });
 
   const handleAddEditTodo = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!input.trim()) return;
 
     if (editMode.id) {
-      dispatch(editTodo({ id: editMode.id, text: input }));
+      dispatch({ 
+        type: 'todos/editTodoRequest', 
+        payload: { id: editMode.id, text: input } 
+      });
       setEditMode({ id: null, text: "" });
     } else {
-      dispatch(addTodo(input));
+      dispatch({ type: 'todos/addTodoRequest', payload: input });
     }
     setInput("");
   };
@@ -77,6 +74,14 @@ function Todos() {
       };
     }
     return null;
+  };
+
+  const handleToggleComplete = (id) => {
+    dispatch({ type: 'todos/toggleCompleteRequest', payload: id });
+  };
+
+  const handleDelete = (id) => {
+    dispatch({ type: 'todos/removeTodoRequest', payload: id });
   };
 
   if (status === "loading") {
@@ -129,7 +134,7 @@ function Todos() {
             {["all", "completed", "pending"].map((filterType) => (
               <button
                 key={filterType}
-                onClick={() => dispatch(setFilter(filterType))}
+                onClick={() => dispatch({ type: 'todos/setFilter', payload: filterType })}
                 className={`capitalize px-3 md:px-4 py-1.5 md:py-2 rounded-md transition-colors duration-200 text-sm md:text-base ${
                   filter === filterType
                     ? "bg-teal-600 text-white"
@@ -149,11 +154,12 @@ function Todos() {
           {/* Todo List */}
           <TodoList
             todos={filteredTodos}
-            onToggleComplete={(id) => dispatch(toggleComplete(id))}
+            onToggleComplete={handleToggleComplete}
             onEdit={(todo) => setEditMode({ id: todo._id, text: todo.text })}
-            onDelete={(id) => dispatch(removeTodo(id))}
+            onDelete={handleDelete}
           />
-          {/* motivational mssg section */}
+
+          {/* Motivational Message Section */}
           {filteredTodos.length === 0 && (
             <MotivationalMessage getMotivationalMessage={getMotivationalMessage} />
           )}

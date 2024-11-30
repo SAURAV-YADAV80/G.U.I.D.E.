@@ -14,6 +14,7 @@ const Signup = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData({ ...formData, [name]: value });
   };
 
@@ -39,34 +40,58 @@ const Signup = () => {
     return null;
   };
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  // const handleSignUp = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setLoading(true);
 
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      setLoading(false);
-      return;
-    }
+  //   const validationError = validateForm();
+  //   if (validationError) {
+  //     setError(validationError);
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    // API call ( API request)
-    try {
-      const response = await apiCall(formData);
-      if (response.success) {
-        navigate("/login"); // Redirect to login after successful sign-up
-      } else {
-        setError(response.message || "An error occurred.");
-      }
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   // API call ( API request)
+  //   try {
+  //     const response = await apiCall(formData);
+  //     if (response.success) {
+  //       navigate("/SignIn"); // Redirect to SignIn after successful sign-up
+  //     } else {
+  //       setError(response.message || "An error occurred.");
+  //     }
+  //   } catch (err) {
+  //     setError("Something went wrong. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // Replace this with your actual API call
+  
+  const handleSignUp = async (e) =>  {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/signUp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email:formData.email, password:formData.password, userName:formData.name}),
+      });
+      window.localStorage.setItem('email',formData.email);
+
+      if (response.ok) {
+        navigate('/academics'); // Redirect to the Academics page
+        console.log("SuccessFully SignedIn!!!");
+      } else {
+         console.log("Failed To SignIn !!!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   const apiCall = (data) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -139,7 +164,7 @@ const Signup = () => {
         </form>
         <p className="mt-4 text-sm text-center">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-500 hover:underline">
+          <a href="/SignIn" className="text-blue-500 hover:underline">
             Log in
           </a>
         </p>
