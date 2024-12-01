@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { X } from 'lucide-react'; // Replace with your preferred icon library
+import { X } from 'lucide-react'; 
 
 const AddSubjectModal = ({
   isOpen,

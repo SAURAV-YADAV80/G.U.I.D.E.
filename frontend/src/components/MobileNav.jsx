@@ -1,8 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../slices/authSlice"; // Make sure to import the logout action
 
 function MobileNav({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const navItems = [
     { name: "Todos", path: "/todos" },
@@ -15,6 +20,12 @@ function MobileNav({ isOpen, setIsOpen }) {
   const handleNavClick = (path) => {
     navigate(path);
     setIsOpen(false); // Close the navbar
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setIsOpen(false);
+    navigate("/login"); // Navigate to login page after logout
   };
 
   return (
@@ -34,19 +45,32 @@ function MobileNav({ isOpen, setIsOpen }) {
           </button>
         ))}
       </div>
+
       <div className="pt-4 pb-3 border-t border-emerald-500">
-        <button
-          onClick={() => handleNavClick("/login")}
-          className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
-        >
-          Login
-        </button>
-        <button
-          onClick={() => handleNavClick("/signup")}
-          className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
-        >
-          Signup
-        </button>
+        {/* Display Login/Signup or Logout based on authentication */}
+        {!isAuthenticated ? (
+          <>
+            <button
+              onClick={() => handleNavClick("/login")}
+              className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => handleNavClick("/signup")}
+              className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-emerald-500 transition-colors"
+            >
+              Signup
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="block w-full text-left px-3 py-2 rounded-md text-white bg-emerald-500 hover:bg-emerald-600 transition-colors"
+          >
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

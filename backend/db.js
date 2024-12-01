@@ -1,6 +1,4 @@
 const { MongoClient, Collection } = require('mongodb');
-
-
 const dbName = 'my-data';
 let db_1;
 
@@ -16,8 +14,6 @@ const connectDB = async () => {
         console.log(error);
     }
 };
-
-
 const getDb = (collectionName) => {
     if (!db_1) {
         console.error("Database not connected !!! Call the connectDB first !!!");

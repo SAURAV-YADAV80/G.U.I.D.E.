@@ -1,37 +1,46 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteSyllabus, toggleSyllabus } from '../slices/academicSlice';
+import { CheckCircle, XCircle } from 'lucide-react';
 
 const SyllabusList = ({ subject }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="mb-4">
-      <h3 className="font-semibold text-teal-800 mb-2">Syllabus Progress</h3>
-      <div className="space-y-2">
+    <div className="mb-6 p-4 bg-white shadow-lg rounded-lg">
+      <h3 className="font-semibold text-teal-800 text-lg mb-4">Syllabus Progress</h3>
+      
+      <div className="space-y-4">
         {subject.syllabus.length > 0 ? (
           subject.syllabus.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-2 bg-teal-50 p-2 rounded hover:bg-teal-100 transition-colors duration-200"
+              className="flex items-center justify-between bg-teal-50 p-4 rounded-md hover:bg-teal-100 transition-colors"
             >
+              <div className="flex items-center gap-3">
+                {/* Toggle completion */}
+                <button
+                  onClick={() => dispatch(toggleSyllabus({ subjectId: subject.id, syllabusId: item.id }))}
+                  className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
+                    item.completed ? 'bg-emerald-500 border-emerald-500' : 'bg-white border-teal-300 hover:border-teal-500'
+                  }`}
+                >
+                  {item.completed && <CheckCircle className="text-white w-5 h-5" />}
+                </button>
+
+                {/* Syllabus topic */}
+                <span className={`text-lg font-medium ${item.completed ? 'line-through text-teal-400' : 'text-teal-700'}`}>
+                  {item.topic}
+                </span>
+              </div>
+
+              {/* Delete button */}
               <button
-                className="text-teal-300 hover:text-red-500 transition duration-200"
                 onClick={() => dispatch(deleteSyllabus({ subjectId: subject.id, syllabusId: item.id }))}
+                className="text-red-500 hover:text-red-700 transition duration-200"
               >
-                ✖
+                <XCircle className="w-6 h-6" />
               </button>
-              <button
-                onClick={() => dispatch(toggleSyllabus({ subjectId: subject.id, syllabusId: item.id }))}
-                className={`w-5 h-5 rounded border flex items-center justify-center ${
-                  item.completed ? 'bg-emerald-500 border-emerald-500' : 'border-teal-300 hover:border-teal-500'
-                }`}
-              >
-                {item.completed && <span className="text-white">✔</span>}
-              </button>
-              <span className={`${item.completed ? 'line-through text-teal-400' : 'text-teal-700'}`}>
-                {item.topic}
-              </span>
             </div>
           ))
         ) : (

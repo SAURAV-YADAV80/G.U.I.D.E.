@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
-import TypingSpeedTester from "./pages/TypingSpeedTester";
 
 function App() {
   return (
@@ -19,15 +18,55 @@ function App() {
         <Navbar />
         <main className="container mx-auto px-4 py-8">
           <Routes>
-            <Route path="/" element={<LandingPage/>} />
-            <Route path="/todos" element={<Todos />} />
-            <Route path="/academics" element={<Academics />} />
-            <Route path="/diary" element={<Diary />} />
-            <Route path="/moodtracker" element={<MoodTracker />} />
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/pages" element={<Reff />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="*" element={<h1 className="text-3xl font-bold text-red-500">404 - Page Not Found</h1>} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/todos"
+              element={
+                <ProtectedRoute>
+                  <Todos />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/academics"
+              element={
+                <ProtectedRoute>
+                  <Academics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/diary"
+              element={
+                <ProtectedRoute>
+                  <Diary />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/moodtracker"
+              element={
+                <ProtectedRoute>
+                  <MoodTracker />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Catch-All Route */}
+            <Route
+              path="*"
+              element={
+                <h1 className="text-3xl font-bold text-red-500">
+                  404 - Page Not Found
+                </h1>
+              }
+            />
           </Routes>
         </main>
       </Router>

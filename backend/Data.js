@@ -20,7 +20,6 @@ const verifyToken = (token) => {
 
 Router.post('/todos', async (req, res) => {
     try {
-       
         const {email} = req.body;
         const userCollection = getDb('profiles');
         const users = await userCollection.find({email}).toArray();

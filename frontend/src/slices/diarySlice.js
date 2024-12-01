@@ -1,40 +1,57 @@
-// src/slices/diarySlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   diaries: [],
   currentDiary: null,
+  loading: false,
+  error: null,
 };
 
 const diarySlice = createSlice({
   name: 'diary',
   initialState,
   reducers: {
-    saveDiary: (state, action) => {
-      const { date, text } = action.payload;
-      const existingDiaryIndex = state.diaries.findIndex(diary => diary.date === date);
-      
-      if (existingDiaryIndex !== -1) {
-        // Update existing diary
-        state.diaries[existingDiaryIndex].text = text;
-      } else {
-        // Add new diary
-        state.diaries.push({ date, text });
-      }
-      
-      // Save to localStorage
-      localStorage.setItem('diaries', JSON.stringify(state.diaries));
+    fetchDiariesRequest: (state) => {
+      state.loading = true;
+      state.error = null;
     },
-    setDiaries: (state, action) => {
+    fetchDiariesSuccess: (state, action) => {
+      state.loading = false;
       state.diaries = action.payload;
     },
-    resetDiaries: (state) => {
-      // This will lock the current day's diary at midnight
-      const currentDiaries = [...state.diaries];
-      localStorage.setItem('diaries', JSON.stringify(currentDiaries));
-    }
-  }
+    fetchDiariesFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    saveDiaryRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    saveDiarySuccess: (state, action) => {
+      state.loading = false;
+      const { date, text } = action.payload;
+      const existingDiaryIndex = state.diaries.findIndex((diary) => diary.date === date);
+
+      if (existingDiaryIndex !== -1) {
+        state.diaries[existingDiaryIndex].text = text;
+      } else {
+        state.diaries.push(action.payload);
+      }
+    },
+    saveDiaryFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
 });
 
-export const { saveDiary, setDiaries, resetDiaries } = diarySlice.actions;
+export const {
+  fetchDiariesRequest,
+  fetchDiariesSuccess,
+  fetchDiariesFailure,
+  saveDiaryRequest,
+  saveDiarySuccess,
+  saveDiaryFailure,
+} = diarySlice.actions;
+
 export default diarySlice.reducer;

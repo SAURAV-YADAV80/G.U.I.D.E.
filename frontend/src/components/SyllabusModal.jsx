@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { X } from 'lucide-react'; // Replace with your preferred icon library
+import { X } from 'lucide-react';
 
 const SyllabusModal = ({
   isOpen,
@@ -31,15 +31,6 @@ const SyllabusModal = ({
             onChange={(e) => setSyllabusData({ ...syllabusData, topic: e.target.value })}
             className="w-full p-2 border border-teal-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={syllabusData.completed}
-              onChange={(e) => setSyllabusData({ ...syllabusData, completed: e.target.checked })}
-              className="w-4 h-4 text-teal-600"
-            />
-            <label className="text-teal-600">Completed</label>
-          </div>
         </div>
         <div className="flex justify-end gap-4 mt-4">
           <button

@@ -10,6 +10,7 @@ import moodReducer from './slices/moodSlice';
 
 // Import Sagas
 import todoSagas from './sagas/todoSagas';
+import diarySaga from "./sagas/diarySaga";
 // import diarySagas from './sagas/diarySagas';
 // import academicSagas from './sagas/academicSagas';
 // import authSagas from './sagas/authSagas';
@@ -22,7 +23,7 @@ const sagaMiddleware = createSagaMiddleware();
 function* rootSaga() {
   yield all([
     todoSagas(),
-    // diarySagas(),
+    diarySaga()
     // academicSagas(),
     // authSagas(),
     // moodSagas()

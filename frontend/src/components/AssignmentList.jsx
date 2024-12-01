@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteAssignment } from '../slices/academicSlice';
+import { CheckCircle, XCircle } from 'lucide-react';
 
 const AssignmentList = ({ subject }) => {
   const dispatch = useDispatch();
@@ -25,33 +26,46 @@ const AssignmentList = ({ subject }) => {
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="font-semibold text-teal-800">Assignments</h3>
-        <div className="flex gap-2">
-          <button onClick={() => handleSort('dueDate')} className="text-sm text-teal-600 hover:text-teal-800">
+    <div className="p-6 bg-white rounded-lg shadow-lg space-y-6 overflow-x-auto">
+      <div className="flex items-center justify-between mb-4 flex-wrap">
+        <h3 className="font-semibold text-teal-800 text-xl w-full sm:w-auto">Assignments</h3>
+        <div className="flex gap-4 w-full sm:w-auto mt-4 sm:mt-0">
+          <button
+            onClick={() => handleSort('dueDate')}
+            className={`text-sm font-medium text-teal-600 hover:text-teal-800 ${sortBy === 'dueDate' && 'font-bold'}`}
+          >
             Due Date {sortBy === 'dueDate' && (sortOrder === 'asc' ? '↑' : '↓')}
           </button>
-          <button onClick={() => handleSort('marks')} className="text-sm text-teal-600 hover:text-teal-800">
+          <button
+            onClick={() => handleSort('marks')}
+            className={`text-sm font-medium text-teal-600 hover:text-teal-800 ${sortBy === 'marks' && 'font-bold'}`}
+          >
             Marks {sortBy === 'marks' && (sortOrder === 'asc' ? '↑' : '↓')}
           </button>
         </div>
       </div>
-      <div className="space-y-2">
+
+      <div className="space-y-4">
         {subject.assignments.length > 0 ? (
           getSortedAssignments().map((assignment) => (
-            <div key={assignment.id} className="bg-teal-50 p-4 rounded-lg shadow-md hover:bg-teal-100">
-              <div className="flex justify-between">
-                <h4 className="font-medium text-teal-800">{assignment.name}</h4>
+            <div
+              key={assignment.id}
+              className="flex flex-col bg-teal-50 p-5 rounded-lg shadow-md hover:bg-teal-100 transition-colors duration-200"
+            >
+              <div className="flex justify-between items-center">
+                <h4 className="text-teal-800 text-lg font-medium">{assignment.name}</h4>
                 <button
                   className="text-teal-300 hover:text-red-500 transition duration-200"
                   onClick={() => dispatch(deleteAssignment({ subjectId: subject.id, assignmentId: assignment.id }))}
                 >
-                  ✖
+                  <XCircle className="w-6 h-6" />
                 </button>
               </div>
-              <p className="text-sm text-teal-600">Due: {new Date(assignment.dueDate).toLocaleDateString()}</p>
-              <p className="text-sm text-teal-600">Total Marks: {assignment.totalMarks}</p>
+              <p className="text-teal-600 text-sm">Due: {new Date(assignment.dueDate).toLocaleDateString()}</p>
+              <p className="text-teal-600 text-sm">Total Marks: {assignment.totalMarks}</p>
+              <button className="mt-3 text-sm text-teal-500 hover:text-teal-700">
+                View Details
+              </button>
             </div>
           ))
         ) : (
