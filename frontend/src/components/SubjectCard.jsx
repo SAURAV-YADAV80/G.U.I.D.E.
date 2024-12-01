@@ -165,7 +165,7 @@ const SubjectCard = ({ subject }) => {
       </div>
 
       {/* Progress Section */}
-      <div className="p-4 grid md:grid-cols-2 gap-4">
+      <div className="w-[100%] p-4 grid md:grid-cols-2 gap-4">
         <ProgressSection 
           icon={<BookOpen className="w-5 h-5 text-emerald-600" />}
           title="Syllabus Progress"
@@ -177,7 +177,7 @@ const SubjectCard = ({ subject }) => {
       </div>
 
       {/* Lists Section */}
-      <div className="p-4 grid md:grid-cols-2 gap-6">
+      <div className="w-[100%] p-4 grid md:grid-cols-1 gap-6">
         <SyllabusList subject={subject} />
       </div>
 

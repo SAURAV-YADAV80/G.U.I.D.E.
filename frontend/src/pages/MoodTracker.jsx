@@ -35,16 +35,17 @@ const MoodTracker = () => {
 
   const handlePrevMonth = () => {
     const date = new Date(currentDate);
-    dispatch(setCurrentDate(new Date(date.getFullYear(), date.getMonth() - 1).toISOString()));
+    dispatch(setCurrentDate(new Date(date.getFullYear(), date.getMonth() - 1, 1).toISOString()));
   };
 
   const handleNextMonth = () => {
     const date = new Date(currentDate);
-    dispatch(setCurrentDate(new Date(date.getFullYear(), date.getMonth() + 1).toISOString()));
+    dispatch(setCurrentDate(new Date(date.getFullYear(), date.getMonth() + 1, 1).toISOString()));
   };
 
   const handleDateSelect = (date) => {
-    dispatch(setSelectedDate(date.toISOString()));
+    const selectedDate = new Date(date).toISOString();
+    dispatch(setSelectedDate(selectedDate));
     dispatch(setIsModalOpen(true));
   };
 
@@ -77,7 +78,7 @@ const MoodTracker = () => {
 
     // Calendar days
     for (let day = 1; day <= daysInMonth; day++) {
-      const currentDay = new Date(date.getFullYear(), date.getMonth(), day);
+      const currentDay = new Date(date.getFullYear(), date.getMonth(), day  + 1);
       const dateStr = currentDay.toISOString().split('T')[0];
       const dayMoods = moods.filter(mood => mood.date === dateStr);
       const avgMood = dayMoods.length > 0
@@ -87,7 +88,7 @@ const MoodTracker = () => {
       days.push(
         <CalendarDay
           key={day}
-          day={day}
+          day={day}//day---
           dateStr={dateStr}
           avgMood={avgMood}
           isToday={dateStr === todayStr}

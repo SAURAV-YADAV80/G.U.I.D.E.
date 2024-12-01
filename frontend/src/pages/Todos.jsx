@@ -29,7 +29,9 @@ function Todos() {
   });
 
   const handleAddEditTodo = (e) => {
-    // e.preventDefault();
+    if(e.target.querySelector('button').textContent === 'Add Todo') {
+      e.preventDefault();
+    }
     if (!input.trim()) return;
 
     if (editMode.id) {

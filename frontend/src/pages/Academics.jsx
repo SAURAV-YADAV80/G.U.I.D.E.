@@ -112,21 +112,16 @@ const Academics = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-            <img
-              src="/api/placeholder/400/200"
-              alt="No subjects"
-              className="mx-auto mb-6 rounded-lg opacity-50"
-            />
+          <div className="pb-40 bg-white rounded-xl shadow-lg p-8 text-center">
             <p className="text-teal-700 font-medium text-xl">
               No subjects available. Start by adding your first subject!
             </p>
-            <button
+            {/* <button
               onClick={() => setIsAddSubjectOpen(true)}
               className="mt-4 bg-teal-500 text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition-colors"
             >
               Add First Subject
-            </button>
+            </button> */}
           </div>
         )}
       </div>

@@ -6,16 +6,21 @@ import { CheckCircle, XCircle } from 'lucide-react';
 const SyllabusList = ({ subject }) => {
   const dispatch = useDispatch();
 
+  // Determine if the list is scrollable (more than 3 syllabus items)
+  const isScrollable = subject.syllabus.length > 3;
+
   return (
-    <div className="mb-6 p-4 bg-white shadow-lg rounded-lg">
+    <div className="w-full mb-6 p-4 bg-white shadow-lg rounded-lg">
       <h3 className="font-semibold text-teal-800 text-lg mb-4">Syllabus Progress</h3>
       
-      <div className="space-y-4">
+      <div
+        className={`space-y-4 ${isScrollable ? 'max-h-96 overflow-y-auto scrollbar scrollbar-thumb-teal-700 scrollbar-track-teal-50' : ''}`}
+      >
         {subject.syllabus.length > 0 ? (
           subject.syllabus.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between bg-teal-50 p-4 rounded-md hover:bg-teal-100 transition-colors"
+              className="flex items-center justify-between bg-teal-50 p-4 rounded-md hover:bg-teal-100 transition-colors w-full"
             >
               <div className="flex items-center gap-3">
                 {/* Toggle completion */}

@@ -62,12 +62,15 @@ function DesktopNav() {
           </>
         )}
         {isAuthenticated && (
+          <>
+          <p className="pl-4 hidden lg:flex">{localStorage.getItem('name')}</p>
           <button
             onClick={handleLogout}
             className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600 transition-colors"
           >
             Logout
           </button>
+          </>
         )}
       </div>
     </div>

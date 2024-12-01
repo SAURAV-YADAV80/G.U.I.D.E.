@@ -25,6 +25,7 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data, "data")
         localStorage.setItem('name', data.name);
         localStorage.setItem('email',email);
         dispatch(login(data.name));

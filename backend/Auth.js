@@ -21,7 +21,7 @@ Router.post('/signUp', async (req, res) => {
     
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
     console.log("AuthToken : ", token);
-    res.status(200).json({ msg: 'User Successfully Signed Up !!!' });
+    res.status(200).json({name:userName, msg: 'User Successfully Signed Up !!!' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error });
@@ -46,7 +46,7 @@ Router.post('/logIn', async (req, res) => {
 
     console.log("AuthToken : ", token);
 
-    res.status(200).json({ msg: 'Logged In successfully !!!' });
+    res.status(200).json({ name:user.userName,msg: 'Logged In successfully !!!' });
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');

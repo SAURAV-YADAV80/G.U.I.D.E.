@@ -17,6 +17,7 @@ const AssignmentList = ({ subject }) => {
     }
   };
 
+  console.log(subject.assignments, "assign")
   const getSortedAssignments = () => {
     return [...subject.assignments].sort((a, b) => {
       const compareA = sortBy === 'marks' ? Number(a.totalMarks) : new Date(a.dueDate);
@@ -53,7 +54,7 @@ const AssignmentList = ({ subject }) => {
               className="flex flex-col bg-teal-50 p-5 rounded-lg shadow-md hover:bg-teal-100 transition-colors duration-200"
             >
               <div className="flex justify-between items-center">
-                <h4 className="text-teal-800 text-lg font-medium">{assignment.name}</h4>
+                <h4 className="text-teal-800 text-lg font-medium">{assignment.title}</h4>
                 <button
                   className="text-teal-300 hover:text-red-500 transition duration-200"
                   onClick={() => dispatch(deleteAssignment({ subjectId: subject.id, assignmentId: assignment.id }))}
@@ -61,11 +62,11 @@ const AssignmentList = ({ subject }) => {
                   <XCircle className="w-6 h-6" />
                 </button>
               </div>
+              
+              <h2 className="text-teal-800 text-sm font-medium">{assignment.description}</h2>
+              {/* <p>{assignment.}</p> */}
               <p className="text-teal-600 text-sm">Due: {new Date(assignment.dueDate).toLocaleDateString()}</p>
-              <p className="text-teal-600 text-sm">Total Marks: {assignment.totalMarks}</p>
-              <button className="mt-3 text-sm text-teal-500 hover:text-teal-700">
-                View Details
-              </button>
+              <p className="text-teal-600 text-xs">Total Marks: {assignment.totalMarks}</p>
             </div>
           ))
         ) : (

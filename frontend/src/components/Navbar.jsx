@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-
   return (
     <nav className="bg-teal-600 text-white sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="relative flex justify-between items-center h-16">
+        {<p className="flex lg:hidden w-1/4">{localStorage.getItem('name')}</p>}
           {/* Logo with Tooltip */}
           <div className="relative group">
             <button
@@ -37,7 +38,6 @@ function Navbar() {
               Goal-oriented Utility for Improving Daily Education
             </div>
           </div>
-
           {/* Hamburger Icon */}
           <button
             className="lg:hidden p-2 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-white"
@@ -67,7 +67,6 @@ function Navbar() {
               )}
             </svg>
           </button>
-
           {/* Desktop Navigation */}
           <DesktopNav />
         </div>
