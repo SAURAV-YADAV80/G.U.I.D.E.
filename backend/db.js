@@ -1,7 +1,6 @@
 const { MongoClient, Collection } = require('mongodb');
 const dbName = 'my-data';
 let db_1;
-
 const connectDB = async () => {
     try {
         const client=new MongoClient('mongodb://localhost:27017')
